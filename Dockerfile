@@ -15,5 +15,6 @@ RUN apk --no-cache --update add privoxy wget ca-certificates bash unzip && \
     rm -Rf privoxy-blocklist-master master.zip  && \
     apk del bash
 COPY root/etc/privoxy/default.action /etc/privoxy
+RUN chown privoxy.privoxy /etc/privoxy/*
 ENTRYPOINT ["privoxy"]
 CMD ["--no-daemon","--user","privoxy","/etc/privoxy/config"]
