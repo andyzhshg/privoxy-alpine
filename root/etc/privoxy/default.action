@@ -863,6 +863,7 @@ landing.trafficz.com/
 wwwz.websearch.verizon.net/search\?qo=
 
 {+block{Site-specific block pattern matches.}}
+*.mackeeper.com
 .livejasmin.com
 .trafficfactory.biz
 .virtualfreegames.net
