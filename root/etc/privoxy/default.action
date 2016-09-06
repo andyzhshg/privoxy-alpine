@@ -863,6 +863,7 @@ landing.trafficz.com/
 wwwz.websearch.verizon.net/search\?qo=
 
 {+block{Site-specific block pattern matches.}}
+*.anytheengmedia.com
 *.dropped-clicks.com
 oxfordway2profit.com
 *.mackeeper.com
