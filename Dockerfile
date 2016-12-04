@@ -2,19 +2,21 @@ FROM alpine:edge
 
 EXPOSE 8118
 
-COPY root/etc/privoxy-blacklist /etc/
-
-RUN apk --no-cache --update add privoxy wget ca-certificates bash unzip && \
-    wget https://github.com/Andrwe/privoxy-blocklist/archive/master.zip && \
-    unzip master.zip && \
-    sed -i'' 's/\/etc\/conf\.d\/privoxy-blacklist/\/etc\/privoxy-blacklist/' /privoxy-blocklist-master/privoxy-blocklist.sh && \ 
-    sed -i'' 's/127\.0\.0\.1:8118/0\.0\.0\.0:8118/' /etc/privoxy/config && \ 
-    sed -i'' 's/enable-edit-actions\ 0/enable-edit-actions\ 1/' /etc/privoxy/config && \ 
-    sed -i'' 's/accept-intercepted-requests\ 0/accept-intercepted-requests\ 1/' /etc/privoxy/config && \ 
-    ./privoxy-blocklist-master/privoxy-blocklist.sh && \ 
-    rm -Rf privoxy-blocklist-master master.zip  && \
-    apk del bash
-COPY root/etc/privoxy/default.action /etc/privoxy
+RUN apk --no-cache --update add privoxy wget ca-certificates bash p7zip && \
+    wget https://s3.amazonaws.com/ab2p/ab2p.all_rus.7z && \
+    mkdir temp && \
+    7za e ab2p.all_rus.7z -y -otemp && \
+    cp temp/ab2p.system.action temp/ab2p.action temp/ab2p.system.filter temp/ab2p.filter /etc/privoxy && \
+    sed -i'' 's/127\.0\.0\.1:8118/0\.0\.0\.0:8118/' /etc/privoxy/config && \
+    sed -i'' 's/enable-edit-actions\ 0/enable-edit-actions\ 1/' /etc/privoxy/config && \
+    sed -i'' 's/accept-intercepted-requests\ 0/accept-intercepted-requests\ 1/' /etc/privoxy/config && \
+    sed -i'' 's/example/ssosol/' /etc/privoxy/ab2p.system.filter && \
+    echo 'actionsfile ab2p.system.action' >> /etc/privoxy/config && \
+    echo 'actionsfile ab2p.action' >> /etc/privoxy/config && \
+    echo 'filterfile ab2p.system.filter' >> /etc/privoxy/config && \
+    echo 'filterfile ab2p.filter' >> /etc/privoxy/config && \
+    rm -Rf temp ab2p.all_rus.7z && \
+    apk del bash p7zip
 RUN chown privoxy.privoxy /etc/privoxy/*
 ENTRYPOINT ["privoxy"]
 CMD ["--no-daemon","--user","privoxy","/etc/privoxy/config"]
