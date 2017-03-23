@@ -9,6 +9,7 @@ RUN apk --no-cache --update add privoxy wget ca-certificates bash p7zip && \
     cp temp/ab2p.system.action temp/ab2p.action temp/ab2p.system.filter temp/ab2p.filter /etc/privoxy && \
     sed -i'' 's/127\.0\.0\.1:8118/0\.0\.0\.0:8118/' /etc/privoxy/config && \
     sed -i'' 's/enable-edit-actions\ 0/enable-edit-actions\ 1/' /etc/privoxy/config && \
+    sed -i'' 's/#max-client-connections/max-client-connections/' /etc/privoxy/config && \
     sed -i'' 's/accept-intercepted-requests\ 0/accept-intercepted-requests\ 1/' /etc/privoxy/config && \
     sed -i'' 's/example/ssosol/g' /etc/privoxy/ab2p.system.filter && \
     sed -i'' 's/http/https/g' /etc/privoxy/ab2p.system.filter && \
