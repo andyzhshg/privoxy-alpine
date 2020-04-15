@@ -1,7 +1,7 @@
 FROM alpine
 
 EXPOSE 8118
-HEALTHCHECK --interval=5m --timeout=3s CMD nc -z localhost 8118
+HEALTHCHECK --interval=30s --timeout=3s CMD nc -z localhost 8118
 RUN apk --no-cache --update add privoxy wget ca-certificates bash p7zip && \
     wget https://s3.amazonaws.com/ab2p/ab2p.easylist_advblock.7z && \
     mkdir temp && \
